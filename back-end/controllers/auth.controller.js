@@ -15,7 +15,7 @@ module.exports.register = catchAsyncErrors(async (req, res) => {
 
 // Login a registered user => /api/v1/login
 
-module.exports.login = catchAsyncErrors(async (req, res) => {
+module.exports.login = catchAsyncErrors(async (req, res, next) => {
   const { username, password } = req.body;
   // Check if username and password is entered by user
   if (!username || !password) {
