@@ -6,14 +6,8 @@ const jwt = require("jsonwebtoken");
 // Get current profile => /api/v1/me
 
 module.exports.getProfile = catchAsyncErrors(async (req, res, next) => {
-  let token;
+  const { token } = req.cookies;
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
-  }
   if (!token) {
     return next(new ErrorHandler(401, "Login first to access this resource"));
   }
