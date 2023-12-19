@@ -5,6 +5,7 @@ import authReducer from "../reducers/authReducer.js";
 const initialState = {
   isAuthenticated: false,
   user: null,
+  token: null,
 };
 
 // Create the Auth Context
@@ -16,8 +17,8 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   // Define your dispatchers here
-  const login = (user) => {
-    dispatch({ type: "LOGIN", payload: user });
+  const login = (data) => {
+    dispatch({ type: "LOGIN", payload: data });
   };
 
   const logout = () => {

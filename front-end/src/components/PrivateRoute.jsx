@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
 
 const PrivateRoute = ({ children }) => {
-  const { token } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!token) {
+    if (!state.token) {
       navigate("/login");
       return null;
     }

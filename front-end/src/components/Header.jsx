@@ -2,13 +2,23 @@ import { useState } from "react";
 import socialPlaceImg from "../assets/images/social-place.png";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { state } = useContext(AuthContext);
+  const { state, logout } = useContext(AuthContext);
   const { user } = state;
-
+  const navigate = useNavigate();
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleSignOut = async () => {
+    await axios.get(`${import.meta.env.VITE_BACKEND_URL}/logout`, {
+      withCredentials: true,
+    });
+
+    navigate("/login");
   };
 
   return (
@@ -75,7 +85,7 @@ const Header = () => {
               type="button"
               className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
             >
-              <span> {user != null ? user.name : null}</span>
+              <span> {user != null ? user.username : null}</span>
             </button>
 
             {/* <!-- Profile dropdown --> */}
@@ -143,6 +153,7 @@ const Header = () => {
                     role="menuitem"
                     tabIndex="-1"
                     id="user-menu-item-2"
+                    onClick={handleSignOut}
                   >
                     Sign out
                   </a>

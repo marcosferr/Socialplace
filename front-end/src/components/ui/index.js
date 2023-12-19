@@ -1,4 +1,4 @@
-import { Button } from "./Button";
-import { Input } from "./Input";
-
-export { Button, Input };
+import Button from "./Button";
+import Input from "./Input";
+import Label from "./Label";
+export { Button, Input, Label };
