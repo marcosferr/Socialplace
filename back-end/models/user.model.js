@@ -21,6 +21,24 @@ const userSchema = new mongoose.Schema({
   aboutMe: {
     type: String,
   },
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
+  following: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  followers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 });

@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 //Import routes
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
+const postRoutes = require("./routes/post.routes");
 //Import middlewares
 const errorMiddleware = require("./middlewares/errors");
 const ErrorHandler = require("./utils/errorHandler");
@@ -36,6 +37,7 @@ require("./config/mongoose.config");
 //Use routes
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", userRoutes);
+app.use("/api/v1", postRoutes);
 app.all("*", (req, res, next) => {
   next(new ErrorHandler(404, `${req.originalUrl} route not found`));
 });
