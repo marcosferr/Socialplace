@@ -3,11 +3,12 @@ import socialPlaceImg from "../assets/images/social-place.png";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { state, logout } = useContext(AuthContext);
-  const { user } = state;
+  const user = localStorage.getItem("user");
   const navigate = useNavigate();
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -17,7 +18,7 @@ const Header = () => {
     await axios.get(`${import.meta.env.VITE_BACKEND_URL}/logout`, {
       withCredentials: true,
     });
-
+    logout();
     navigate("/login");
   };
 
@@ -76,16 +77,22 @@ const Header = () => {
             </button>
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex flex-shrink-0 items-center">
-              <img className="w-auto" src={socialPlaceImg} alt="Your Company" />
-            </div>
+            <Link to={"/"}>
+              <div className="flex flex-shrink-0 items-center">
+                <img
+                  className="w-auto"
+                  src={socialPlaceImg}
+                  alt="Your Company"
+                />
+              </div>
+            </Link>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <button
               type="button"
               className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
             >
-              <span> {user != null ? user.username : null}</span>
+              <span> {user}</span>
             </button>
 
             {/* <!-- Profile dropdown --> */}
@@ -129,15 +136,15 @@ const Header = () => {
                   tabIndex="-1"
                 >
                   {/* <!-- Active: "bg-gray-100", Not Active: "" --> */}
-                  <a
-                    href="#"
+                  <Link
+                    to="/me"
                     className="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
                     tabIndex="-1"
                     id="user-menu-item-0"
                   >
                     Your Profile
-                  </a>
+                  </Link>
                   <a
                     href="#"
                     className="block px-4 py-2 text-sm text-gray-700"

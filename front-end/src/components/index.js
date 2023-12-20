@@ -1,4 +1,4 @@
 import Header from "./Header";
 import PrivateRoute from "./PrivateRoute";
-
-export { Header, PrivateRoute };
+import NewPost from "./NewPost";
+export { Header, PrivateRoute, NewPost };
