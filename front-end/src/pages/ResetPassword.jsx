@@ -1,24 +1,28 @@
 import { Label, Input, Button } from "../components/ui";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import socialPlaceImg from "../assets/images/social-place-black.png";
 import axios from "axios";
-
 import { useState } from "react";
-const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
+
+const ResetPassword = () => {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
+  const { token } = useParams();
+  const navigate = useNavigate();
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/password/forgot`,
+      `${import.meta.env.VITE_BACKEND_URL}/password/reset/${token}`,
       {
-        email,
+        password,
       }
     );
     if (response.error) {
-      setMessage("We did not find an account with that email.");
+      setMessage("Something went wrong :c");
     } else {
-      setMessage("Success! Check your email");
+      setMessage("Success!!!");
+      navigate("/");
     }
   };
   return (
@@ -30,13 +34,11 @@ const ForgotPassword = () => {
           alt="Your Company"
         />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Forgot your password?
+          Create new password
         </h2>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <p className="text-gray-400">
-          We will send an email to recover your password
-        </p>
+        <p className="text-gray-400">Please enter your new password</p>
         {message && <p>{message}</p>}
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -48,20 +50,38 @@ const ForgotPassword = () => {
         >
           <div>
             <Label
-              htmlFor="email"
+              htmlFor="password"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Email address
+              Password
             </Label>
             <div className="mt-2">
               <Input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id="password"
+                name="password"
+                type="password"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+          <div>
+            <Label
+              htmlFor="cpassword"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Confirm Password
+            </Label>
+            <div className="mt-2">
+              <Input
+                id="cpassword"
+                name="cpassword"
+                type="password"
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -70,9 +90,10 @@ const ForgotPassword = () => {
           <div>
             <Button
               type="submit"
+              disabled={password !== confirmPassword}
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Send Email
+              Reset password
             </Button>
           </div>
         </form>
@@ -91,4 +112,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ResetPassword;

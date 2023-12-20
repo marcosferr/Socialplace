@@ -5,9 +5,10 @@ import { AuthContext } from "../context/AuthProvider";
 const PrivateRoute = ({ children }) => {
   const { state } = useContext(AuthContext);
   const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
 
   useEffect(() => {
-    if (!state.token) {
+    if (!isAuthenticated) {
       navigate("/login");
       return null;
     }

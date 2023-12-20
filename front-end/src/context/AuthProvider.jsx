@@ -18,10 +18,14 @@ export const AuthProvider = ({ children }) => {
 
   // Define your dispatchers here
   const login = (data) => {
+    localStorage.setItem("isAuthenticated", true);
+    localStorage.setItem("user", data.user.username);
     dispatch({ type: "LOGIN", payload: data });
   };
 
   const logout = () => {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("user");
     dispatch({ type: "LOGOUT" });
   };
 
