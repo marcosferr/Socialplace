@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan"); // Import morgan for logging
+const session = require("express-session");
+const passport = require("passport");
 const app = express();
 require("dotenv").config({
   path: "./config/config.env",
@@ -9,6 +11,13 @@ const mongoose = require("mongoose");
 const port = process.env.PORT || 8000;
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
+app.use(
+  session({ secret: process.env.SECRET, resave: true, saveUninitialized: true })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+// Passport configuration
+require("./utils/passport.auth")(passport);
 app.use(
   cors({
     origin: "http://localhost:5173", // or put this in a config or environment variable
